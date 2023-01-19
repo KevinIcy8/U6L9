@@ -1,10 +1,12 @@
 public class Classroom
 {
     private Student[] classRoster;
+    private int numberOfStudents;
 
     public Classroom(int numStudents)
     {
         classRoster = new Student[numStudents];
+        numberOfStudents = 0;
     }
 
     // getter method: returns a reference to classRoster array
@@ -21,17 +23,15 @@ public class Classroom
      */
     public boolean addStudent(Student student)
     {
-        int count = 0;
+
         for(int i = 0; i < classRoster.length; i++){
             if(classRoster[i] == null){
                 classRoster[i] = student;
-                count++;
+                numberOfStudents++;
+                return true;
             }
         }
-        if(count == 0){
-            return false;
-        }
-        return true;
+        return false;
     }
 
     /** Returns the class exam average determined by adding
@@ -42,12 +42,13 @@ public class Classroom
     {
         int numerator = 0;
         int denominator = 0;
-        for(Student eachStudent : classRoster){
-            for(int i = 0; i < eachStudent.getExamScores().length; i++){
-                numerator = numerator + eachStudent.getExamScores();
+        for(int i = 0; i < numberOfStudents; i++){
+            for(int eachScore : classRoster[i].getExamScores()){
+                numerator = numerator + eachScore;
+                denominator++;
             }
         }
-        classRoster[0].getExamScores()
+        return (double) numerator / denominator;
     }
 
     /** Prints class roster by printing all non-null students
@@ -57,6 +58,12 @@ public class Classroom
      */
     public void printRoster()
     {
-        /* implement me! */
+        for(int i = 0; i < classRoster.length; i++){
+            if(classRoster[i] != null){
+                System.out.println(classRoster[i].getLast() + ", " + classRoster[i].getFirst());
+            }
+
+        }
+
     }
 }
